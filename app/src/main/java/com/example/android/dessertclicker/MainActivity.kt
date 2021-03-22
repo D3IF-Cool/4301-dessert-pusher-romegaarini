@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
+    private lateinit var dessertTimer: DessertTimer
 
     /** Dessert Data **/
 
@@ -73,7 +74,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
+
         }
+        dessertTimer = DessertTimer()
 
 
         // Set the TextViews to the right values
@@ -109,10 +112,7 @@ class MainActivity : AppCompatActivity() {
             if (dessertsSold >= dessert.startProductionAmount) {
                 newDessert = dessert
             }
-            // The list of desserts is sorted by startProductionAmount. As you sell more desserts,
-            // you'll start producing more expensive desserts as determined by startProductionAmount
-            // We know to break as soon as we see a dessert who's "startProductionAmount" is greater
-            // than the amount sold.
+
             else break
         }
 
@@ -154,6 +154,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart Called")
+        dessertTimer.startTimer()
 
     }
 
@@ -170,6 +171,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Timber.i("onPause called")
+        dessertTimer.stopTimer()
+
     }
 
     override fun onDestroy() {
